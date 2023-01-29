@@ -13,6 +13,7 @@ export default async function handler(
 ) {
   let session = await getSession({req})
   await connectToDatabase()
+  console.log(session)
   let notes = await getNotes(session?.user._id)
   res.status(200).json(notes)
 }

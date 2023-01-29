@@ -1,13 +1,14 @@
 import Head from "next/head";
 import { Inter } from "@next/font/google";
 import styles from "@/styles/Home.module.css";
-import { signOut, useSession } from "next-auth/react";
+import { getSession, signOut, useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import Notes from "./notes";
 import { Container } from "@mantine/core";
+import { getNotes } from "@/util/mongoFunctions";
 
-export default function Home() {
-  const { status } = useSession();
+export default function Home({ fetchedNotes }) {
+  const { data, status } = useSession();
   const router = useRouter();
   if (status === "unauthenticated") {
     router.replace("/login");
@@ -26,11 +27,13 @@ export default function Home() {
         >
           SIGN OUT
         </button>
-        <Notes></Notes>
+        <Notes fetchedNotes={fetchedNotes}></Notes>
       </Container>
     </>
   );
 }
 export async function getServerSideProps(context) {
-  return { props: {} };
+  let session = await getSession(context);
+  let fetchedNotes = await getNotes(session?.user._id);
+  return { props: { fetchedNotes: JSON.parse(JSON.stringify(fetchedNotes)) } };
 }

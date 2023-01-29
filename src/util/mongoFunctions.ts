@@ -4,7 +4,9 @@ import { INote } from "@/types/noteType";
 import { Document } from "mongodb";
 
 async function addNote(userId:string,newNote:INote){
-    new Note({userId,...newNote}).save()
+    let note = new Note({userId,...newNote})
+    let noteDoc = await note.save()
+    return noteDoc
 }
 async function deleteNote(id:string){
     console.log(id)

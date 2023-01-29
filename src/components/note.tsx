@@ -1,9 +1,9 @@
+import { deleteNote, updateNote } from "@/util/notesFetch";
 import { Badge, Card, Group, Text } from "@mantine/core";
 import {} from "next";
 
 export default function Note({ note }) {
   function onFinished(id, e) {
-    console.log();
     updateNote(id, { [e.target.id]: e.target.textContent });
   }
   return (
@@ -16,9 +16,11 @@ export default function Note({ note }) {
         withBorder
       >
         <Group position="apart" mt="md" mb="xs">
-          <Text weight="500">{note.subject}</Text>
+          <Text weight="500" id="subject" defaultValue={note.subject}>
+            {note.subject}
+          </Text>
         </Group>
-        <Text size="sm" color="dimmed">
+        <Text size="sm" color="dimmed" id="content" defaultValue={note.content}>
           {note.content}
         </Text>
       </Card>

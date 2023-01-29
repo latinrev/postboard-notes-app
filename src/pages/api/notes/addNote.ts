@@ -15,6 +15,6 @@ export default async function handler(
   const session = await getSession({req})
   const newNote:INote = req.body
   await connectToDatabase()
-  addNote(session?.user?._id,newNote)
-  res.status(200)
+  let noteDoc = await addNote(session?.user?._id,newNote)
+  res.status(200).json(noteDoc)
 }

@@ -1,60 +1,76 @@
 import styles from "@/styles/Home.module.css";
 import { useForm } from "react-hook-form";
-import { useEffect, useState } from "react";
+import { Fragment, useCallback, useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import { addNote, deleteNote, getNotes, updateNote } from "../util/notesFetch";
-import { Grid, Skeleton, Container } from "@mantine/core";
+import {
+  Grid,
+  Skeleton,
+  Container,
+  Textarea,
+  TextInput,
+  Card,
+  Button,
+  Modal,
+  Group,
+} from "@mantine/core";
 import Note from "@/components/note";
+import NoteInputs from "@/components/noteInputs";
 const child = <Skeleton height={140} radius="md" animate={false} />;
-export default function Notes({ fetchedNotes  }) {
-  const { register, handleSubmit } = useForm();
+
+export default function Notes({ fetchedNotes }) {
+  const [opened, setOpened] = useState(false);
+  const { register, handleSubmit, setValue } = useForm();
   const [notes, setNotes] = useState(fetchedNotes);
+  const [noteIndex, setNodeIndex] = useState(null);
   const router = useRouter();
   const { status, data } = useSession();
   if (status === "unauthenticated") {
     router.replace("/login");
   }
 
-  useEffect(() => {
-    getAndSetNotes();
-  }, []);
-
-  async function getAndSetNotes() {
-    let fetchedNotes = await getNotes();
-    setNotes([...fetchedNotes.data]);
+  async function onSubmit(data: any) {
+    let noteDoc = await (await addNote(data)).data;
+    setNotes((prev) => [...prev, noteDoc]);
   }
-
-  function onSubmit(data: any) {
-    addNote(data);
-    getAndSetNotes();
+  function openModal(note) {
+    setOpened(true);
+    setValue("subject", note.subject);
+    setValue("content", note.content);
   }
+  function closeModal() {
+    setOpened(false);
 
+  }
   return (
     <>
       <Container my="md" fluid>
+        <Container size={"xs"}>
+          <Card sx={4}>
+            <form onSubmit={handleSubmit(onSubmit)}>
+              <NoteInputs register={register}></NoteInputs>
+            </form>
+          </Card>
+          *
+        </Container>
+        <Modal opened={opened} onClose={closeModal}>
+          <NoteInputs register={register} />
+        </Modal>
         <Grid>
-{/*           {notes.map((note) => (
+          {notes.map((note) => (
             <>
-              <Grid.Col xs={2} style={{ alignItems: "center" }}>
-                {<Note note={note}></Note>}
+              <Grid.Col
+                onClick={() => openModal(note)}
+                xs={2}
+                style={{ alignItems: "center" }}
+              >
+                <Note note={note}></Note>
               </Grid.Col>
             </>
-          ))} */}
+          ))}
         </Grid>
-
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <input type="text" {...register("subject")} />
-          <textarea {...register("content")} />
-          <input type="submit" value="submit" />
-        </form>
       </Container>
     </>
   );
-}
-export async function getServerSideProps(context) {
-  console.log("fuck/?")
-  let fetchedNotes = await (await getNotes()).data;
-  console.log({fetchedNotes})
-  return { props: { fetchedNotes } };
 }
