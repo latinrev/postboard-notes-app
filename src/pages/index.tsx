@@ -6,13 +6,9 @@ import { useRouter } from "next/router";
 import Notes from "./notes";
 import { Container } from "@mantine/core";
 import { getNotes } from "@/util/mongoFunctions";
+import { connectToDatabase } from "@/util/mongodb";
 
 export default function Home({ fetchedNotes }) {
-  const { data, status } = useSession();
-  const router = useRouter();
-  if (status === "unauthenticated") {
-    router.replace("/login");
-  }
   return (
     <>
       <Head>
@@ -33,7 +29,18 @@ export default function Home({ fetchedNotes }) {
   );
 }
 export async function getServerSideProps(context) {
+  //console.log(contextte)
   let session = await getSession(context);
-  let fetchedNotes = await getNotes(session?.user._id);
+  console.log(session);
+  if (session === null || session == undefined) {
+    return {
+      redirect: {
+        permanent: false,
+        destination: "/login",
+      },
+    };
+  }
+  connectToDatabase();
+  let fetchedNotes = await getNotes(session.user._id);
   return { props: { fetchedNotes: JSON.parse(JSON.stringify(fetchedNotes)) } };
 }

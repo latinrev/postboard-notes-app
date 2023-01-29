@@ -7,17 +7,17 @@ export default function App({
   pageProps: { session, ...pageProps },
 }: AppProps) {
   return (
-    <MantineProvider
-      withGlobalStyles
-      withNormalizeCSS
-      theme={{
-        /** Put your mantine theme override here */
-        colorScheme: "dark",
-      }}
-    >
-      <SessionProvider session={session}>
+    <SessionProvider session={session}>
+      <MantineProvider
+        withGlobalStyles
+        withNormalizeCSS
+        theme={{
+          /** Put your mantine theme override here */
+          colorScheme: "dark",
+        }}
+      >
         <Component {...pageProps} />
-      </SessionProvider>  
-    </MantineProvider>
+      </MantineProvider>
+    </SessionProvider>
   );
 }

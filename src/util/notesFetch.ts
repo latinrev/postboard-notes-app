@@ -11,10 +11,11 @@ export const getNotes = async () => {
   return notes;
 };
 export const updateNote = async (id: string, updatedNote) => {
-  await axios.post("http://localhost:3000/api/notes/updateNote", {
+  let noteDoc = await axios.post("http://localhost:3000/api/notes/updateNote", {
     id,
     updatedNote,
   });
+  return noteDoc;
 };
 export const deleteNote = async (id: string) => {
   await axios.post("http://localhost:3000/api/notes/deleteNote", { id });

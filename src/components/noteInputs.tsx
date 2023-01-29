@@ -2,6 +2,7 @@ import { Button, Textarea, TextInput } from "@mantine/core";
 import {} from "next";
 
 export default function NoteInputs({ register }) {
+  
   return (
     <>
       <TextInput
