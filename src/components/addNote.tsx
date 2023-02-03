@@ -14,8 +14,8 @@ export default function AddNote({ setNotes }) {
   }
   return (
     <>
-      <Container size={"xs"}>
-        <Card sx={4}>
+      <Container size="xs">
+        <Card>
           <form onSubmit={handleSubmit(onSubmit)}>
             <NoteInputs register={register} />
           </form>

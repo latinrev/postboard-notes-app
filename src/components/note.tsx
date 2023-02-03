@@ -7,31 +7,21 @@ import {
   Group,
   Menu,
   Text,
+  Title,
 } from "@mantine/core";
 import { IoMdTrash, IoMdReorder } from "react-icons/io";
 import { BsThreeDots } from "react-icons/bs";
-export default function Note({ note, onClick }) {
+export default function Note({ note, onClick, deleteNote }) {
   return (
     <>
-      <Card
-        style={{ height: "100%" }}
-        shadow="sm"
-        p="lg"
-        radius="md"
-        withBorder
-      >
+      <Card shadow="sm" p="lg" radius="md" withBorder h={"100%"}>
         <Container onClick={() => onClick()}>
           <Group position="apart" mt="md" mb="xs">
-            <Text weight="500" id="subject" defaultValue={note.subject}>
+            <Title size="h4" weight="500" id="subject">
               {note.subject}
-            </Text>
+            </Title>
           </Group>
-          <Text
-            size="sm"
-            color="dimmed"
-            id="content"
-            defaultValue={note.content}
-          >
+          <Text size="sm" color="dimmed" id="content">
             {note.content}
           </Text>
         </Container>
@@ -43,13 +33,7 @@ export default function Note({ note, onClick }) {
           </Menu.Target>
 
           <Menu.Dropdown>
-            <Menu.Item
-              onClick={() => {
-                deleteNote(note._id);
-              }}
-              icon={<IoMdTrash />}
-              color="red"
-            >
+            <Menu.Item onClick={deleteNote} icon={<IoMdTrash />} color="red">
               Delete
             </Menu.Item>
           </Menu.Dropdown>

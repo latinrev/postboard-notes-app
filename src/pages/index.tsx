@@ -4,10 +4,11 @@ import styles from "@/styles/Home.module.css";
 import { getSession, signOut, useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import Notes from "./notes";
-import { Container } from "@mantine/core";
+import { Container, Group, Header, Navbar, Paper } from "@mantine/core";
 import { getNotes } from "@/util/mongoFunctions";
 import { connectToDatabase } from "@/util/mongodb";
-
+/* import { HeaderComponent } from "@/components/shared/Header";
+ */
 export default function Home({ fetchedNotes }) {
   return (
     <>
@@ -17,12 +18,9 @@ export default function Home({ fetchedNotes }) {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
+      {/*       <HeaderComponent/>
+       */}{" "}
       <Container fluid={true}>
-        <button
-          onClick={() => signOut({ callbackUrl: "/login", redirect: true })}
-        >
-          SIGN OUT
-        </button>
         <Notes fetchedNotes={fetchedNotes}></Notes>
       </Container>
     </>
@@ -36,7 +34,7 @@ export async function getServerSideProps(context) {
     return {
       redirect: {
         permanent: false,
-        destination: "/login",
+        destination: "/signin",
       },
     };
   }

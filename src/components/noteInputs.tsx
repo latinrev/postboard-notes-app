@@ -2,7 +2,6 @@ import { Button, Textarea, TextInput } from "@mantine/core";
 import {} from "next";
 
 export default function NoteInputs({ register }) {
-  
   return (
     <>
       <TextInput
@@ -10,6 +9,7 @@ export default function NoteInputs({ register }) {
         {...register("subject")}
         variant="unstyled"
         style={{ fontSize: "20" }}
+        size="lg"
       />
       <Textarea
         placeholder="I'd type something here :)"
