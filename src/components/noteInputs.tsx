@@ -5,17 +5,17 @@ export default function NoteInputs({ register }) {
   return (
     <>
       <TextInput
-        placeholder="What is it about?"
+        placeholder="New Thought? What is it about?"
         {...register("subject")}
         variant="unstyled"
         style={{ fontSize: "20" }}
-        size="lg"
+        size="xl"
       />
       <Textarea
         placeholder="I'd type something here :)"
         autosize
         minRows={4}
-        maxRows={16}
+        maxRows={8}
         {...register("content")}
         variant="unstyled"
       />

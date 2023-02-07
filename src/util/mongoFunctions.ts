@@ -1,6 +1,6 @@
 import { connectToDatabase, db } from "./mongodb";
 import { Note } from "../models/notes";
-import { INote } from "@/types/noteType";
+import { INote } from "@/interfaces/noteInterface";
 import { Document } from "mongodb";
 
 async function addNote(userId: string, newNote: INote) {

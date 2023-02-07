@@ -1,5 +1,5 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
-import { INote } from '@/types/noteType'
+import { INote } from '@/interfaces/noteInterface'
 import { connectToDatabase } from '@/util/mongodb'
 import { addNote } from '@/util/mongoFunctions'
 import type { NextApiRequest, NextApiResponse } from 'next'

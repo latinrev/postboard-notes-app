@@ -1,5 +1,5 @@
 import { useForm } from "react-hook-form";
-import { INote } from "@/types/noteType";
+import { INote } from "@/interfaces/noteInterface";
 import {
   getProviders,
   signIn,
